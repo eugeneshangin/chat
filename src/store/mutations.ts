@@ -71,6 +71,9 @@ const mutations = {
 
     // находим объкт этой комнаты
     const room = state.rooms.find((r) => r.name === messageObj.room);
+
+    // если нашли комнату значит обновляем ее
+    // иначе добавляем новую
     if (room) {
       // меняем последнее сообщение
       room.last_message = {
@@ -91,6 +94,7 @@ const mutations = {
         room.countNewMessage = room.countNewMessage ? room.countNewMessage + 1 : 1;
       }
     } else {
+      // создаем новую комнату
       const newRoom: IRoom = {
         last_message: {
           sender: messageObj.sender,

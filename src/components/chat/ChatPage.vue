@@ -11,15 +11,6 @@
         :selected-room="$store.state.selectedRoom"
         class="main-page__fullHeight"
       />
-      <v-text-field
-        v-model="message"
-        outlined
-        hide-details
-        :rules="rules"
-        placeholder="Сообщение..."
-        dense
-        @keydown="sendMessage"
-      />
     </div>
     <div
       v-else
@@ -33,7 +24,6 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { ACTION_SET_SETTINGS } from '@/types/actions';
-import { limitHandler } from '@/utils/helpers';
 import List from './List.vue';
 
 /**
@@ -45,37 +35,9 @@ import List from './List.vue';
   },
 })
 export default class ChatPage extends Vue {
-  // текущее сообщение
-  private message = '';
-
-  // валидатор для отправки сообщения
-  private rules = [
-    limitHandler(this.$store.state.settings.max_message_length || 2000),
-  ];
-
   mounted(): void {
     // получаем список настроек и сохраняем в store
     this.$store.dispatch(ACTION_SET_SETTINGS);
-  }
-
-  /**
-   * Обработчик отправки сообщения
-   * @param event события клавиатуры
-   * @private
-   */
-  private sendMessage(event: KeyboardEvent): void {
-    // отправляем только если нажали ентер и если соответствует разрешенной длинне
-    if (event.code === 'Enter'
-      && this.message.length < this.$store.state.settings.max_message_length) {
-      // формируем дату для сообщения
-      const data = {
-        room: this.$store.state.selectedRoom,
-        text: this.message,
-      };
-      // отправляем сообщение
-      this.$socket.send(JSON.stringify(data));
-      this.message = '';
-    }
   }
 }
 </script>

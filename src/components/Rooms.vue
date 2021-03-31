@@ -24,11 +24,11 @@
                 {{ item.countNewMessage }}
               </div>
             </div>
-            <div class="d-flex flex-nowrap overflow-hidden ">
+            <div class="d-flex flex-nowrap overflow-hidden align-baseline">
               <v-list-item-subtitle>
                 {{ item.last_message.text }}
               </v-list-item-subtitle>
-              <div class="grey--text room-message">
+              <div class="grey--text room-message-date">
                 {{ getMessageDate(item.last_message.created) }}
               </div>
             </div>
@@ -66,6 +66,11 @@ export default class Navigation extends Vue {
     return this.$store.state.rooms.length;
   }
 
+  /**
+   * Обработчик форматирования даты
+   * @param dateStr дата последнего сообщения
+   * @private
+   */
   private getMessageDate(dateStr: string): string {
     return getFormattedDate(new Date(dateStr));
   }
@@ -95,7 +100,8 @@ export default class Navigation extends Vue {
   height: 24px;
 }
 
-.room-message {
+.room-message-date {
   font-size: 12px;
+  white-space: nowrap;
 }
 </style>

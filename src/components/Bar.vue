@@ -1,9 +1,12 @@
 <template>
   <div
-    class="d-flex justify-lg-space-between bar__fullWidth"
+    class="d-flex justify-lg-space-between bar"
   >
     <div class="title">
       EugeneChat
+    </div>
+    <div class="title white--text bar__room">
+      {{ $store.state.selectedRoom }}
     </div>
     <v-btn
       text
@@ -12,6 +15,7 @@
       Создать комнату
     </v-btn>
     <v-dialog
+      v-if="dialog"
       v-model="dialog"
       max-width="290"
     >
@@ -30,6 +34,7 @@ import ChatCreatorDialog from './ChatCreatorDialog.vue';
   },
 })
 export default class Bar extends Vue {
+  // определяет видимость диалога создания
   private dialog = false;
 
   /**
@@ -51,9 +56,13 @@ export default class Bar extends Vue {
 </script>
 <style lang="less" scoped>
 .bar {
-  &__fullWidth {
-    width: 100%;
+  width: 100%;
+
+  &__room {
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 300px;
+    text-overflow: ellipsis;
   }
 }
-
 </style>
