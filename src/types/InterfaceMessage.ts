@@ -7,3 +7,11 @@ export interface IMessage {
   sender: ISender;
   created: string;
 }
+
+export interface IDataMessage extends IMessage {
+  room: string;
+}
+
+export interface IWSMessage {
+  data: string;
+}

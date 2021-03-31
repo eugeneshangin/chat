@@ -4,7 +4,7 @@
       <div class="subtitle-1 green--text">{{ sender.username }}</div>
       <div> {{ text }}</div>
     </div>
-    <div class="font-weight-bold grey--text">{{ dateFormatted }}</div>
+    <div class="grey--text v-size--small">{{ dateFormatted }}</div>
   </div>
 </template>
 <script lang="ts">

@@ -6,15 +6,10 @@ Vue.use(Vuetify);
 
 export default new Vuetify({
   theme: {
-    dark: localStorage.vuetifyThemeDark !== 'false',
+    dark: false,
     options: {
       minifyTheme: (css) => (process.env.NODE_ENV === 'production'
         ? css.replace(/[\r\n|\r|\n]/g, '') : css),
-    },
-    themes: {
-      dark: {
-        primary: '#1c7ed6',
-      },
     },
   },
   icons: {

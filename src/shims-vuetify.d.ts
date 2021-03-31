@@ -5,3 +5,5 @@ declare module 'vuetify/lib/framework' {
 }
 
 declare module 'vuetify/es5/locale/ru';
+
+declare module 'vuetify/es5/services/goto';
