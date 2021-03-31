@@ -18,7 +18,7 @@ interface IResponse {
  * @param callback
  */
 function fetchData(url: string, callback: (res: IResponse) => void): Promise<void> {
-  return fetch(url)
+  return fetch(process.env.VUE_APP_ENDPOINT_DEFAULT + url)
     .then((stream) => stream.json())
     .then(callback);
 }
@@ -26,14 +26,14 @@ function fetchData(url: string, callback: (res: IResponse) => void): Promise<voi
 const actions = {
   // action для получаения нового списка сообщений
   [ACTION_SET_MESSAGES](store: IStore, room: string): Promise<void> {
-    return fetchData(`https://nane.tada.team/api/rooms/${room}/history`, (res) => {
+    return fetchData(`/rooms/${room}/history`, (res) => {
       // обновляем список сообщений
       store.commit(MUTATION_SET_MESSAGES, res.result);
     });
   },
   // action для обновления списка комнат
   [ACTION_SET_ROOMS](store: IStore): Promise<void> {
-    return fetchData('https://nane.tada.team/api/rooms', (res) => {
+    return fetchData('/rooms', (res) => {
       // обновляем список комнат
       store.commit(MUTATION_SET_ROOMS, res.result);
     });
@@ -41,7 +41,7 @@ const actions = {
   // action для получаения настроек
   [ACTION_SET_SETTINGS](store: IStore): Promise<void> {
     // получаем настройки
-    return fetchData('https://nane.tada.team/api/settings', (res) => {
+    return fetchData('/settings', (res) => {
       store.commit(MUTATION_SET_SETTINGS, res.result);
     });
   },
