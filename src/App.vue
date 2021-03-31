@@ -1,22 +1,33 @@
 <template>
   <v-app>
-    <bar />
-    <rooms />
+    <v-system-bar
+      height="50px"
+      app
+      color="blue"
+    >
+      <bar />
+    </v-system-bar>
+    <v-navigation-drawer
+      app
+      permanent
+    >
+      <rooms />
+    </v-navigation-drawer>
     <v-main>
-      <main-page />
+      <chat-page />
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import MainPage from './components/chat/MainPage.vue';
+import ChatPage from './components/chat/ChatPage.vue';
 import Bar from './components/Bar.vue';
 import Rooms from './components/Rooms.vue';
 
 @Component({
   components: {
-    MainPage,
+    ChatPage,
     Bar,
     Rooms,
   },

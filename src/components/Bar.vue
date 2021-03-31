@@ -1,30 +1,23 @@
 <template>
-  <v-system-bar
-    height="50px"
-    app
-    color="blue"
+  <div
+    class="d-flex justify-lg-space-between bar__fullWidth"
   >
-    <div
-      class="d-flex justify-lg-space-between"
-      style="width: 100%"
-    >
-      <div class="title">
-        TeleEugen
-      </div>
-      <v-btn
-        text
-        @click="showDialog"
-      >
-        Создать комнату
-      </v-btn>
-      <v-dialog
-        v-model="dialog"
-        max-width="290"
-      >
-        <chat-creator-dialog @close="closeDialog" />
-      </v-dialog>
+    <div class="title">
+      EugeneChat
     </div>
-  </v-system-bar>
+    <v-btn
+      text
+      @click="showDialog"
+    >
+      Создать комнату
+    </v-btn>
+    <v-dialog
+      v-model="dialog"
+      max-width="290"
+    >
+      <chat-creator-dialog @close="closeDialog" />
+    </v-dialog>
+  </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
@@ -39,12 +32,28 @@ import ChatCreatorDialog from './ChatCreatorDialog.vue';
 export default class Bar extends Vue {
   private dialog = false;
 
+  /**
+   * Обработчик октрытия диалога создания комнаты
+   * @private
+   */
   private showDialog(): void {
     this.dialog = true;
   }
 
+  /**
+   * Обработчик закрытия диалога создания комнаты
+   * @private
+   */
   private closeDialog(): void {
     this.dialog = false;
   }
 }
 </script>
+<style lang="less" scoped>
+.bar {
+  &__fullWidth {
+    width: 100%;
+  }
+}
+
+</style>

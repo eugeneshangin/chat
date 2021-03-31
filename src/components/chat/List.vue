@@ -1,5 +1,6 @@
 <template>
   <div ref="listContainer">
+    <!-- TODO: нужно использовать virtual scroll -->
     <v-list
       dense
       nav
@@ -30,36 +31,47 @@ import {
 import { ACTION_SET_MESSAGES } from '@/types/actions';
 import Message from './Message.vue';
 
+/**
+ * Компонент со списком сообщений
+ */
 @Component({
   components: {
     Message,
   },
 })
 export default class List extends Vue {
+  // текущая выбранная комната
   @Prop({ default: '' })
   public readonly selectedRoom!: string;
 
   @Ref('listContainer')
   readonly container!: HTMLElement;
 
+  /**
+   * Вотчер отслеживающий изменения выбранной комнаты
+   * загружает список сообщений
+   */
   @Watch('selectedRoom')
-  watchSelectedRoom(): void {
-    if (this.selectedRoom) {
-      this.$store.dispatch(ACTION_SET_MESSAGES, this.selectedRoom);
-    }
+  private watchSelectedRoom(): void {
+    this.getMessages();
   }
 
-  mounted(): void {
-    if (this.selectedRoom) {
-      this.$store.dispatch(ACTION_SET_MESSAGES, this.selectedRoom);
-    }
+  private mounted(): void {
+    this.getMessages();
   }
 
-  updated(): void {
+  private updated(): void {
+    // подскроливаем к коцнцу после того как контейнер расчитает свою высоту
     this.$nextTick(() => {
-      // this.container.scrollTop = this.container.scrollHeight;
       goTo(this.container.scrollHeight, { duration: 0 });
     });
+  }
+
+  private getMessages(): void {
+    // грузим сообщения только если выбранная какая то комната
+    if (this.selectedRoom) {
+      this.$store.dispatch(ACTION_SET_MESSAGES, this.selectedRoom);
+    }
   }
 }
 </script>

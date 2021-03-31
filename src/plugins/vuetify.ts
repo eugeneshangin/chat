@@ -4,6 +4,9 @@ import ru from 'vuetify/es5/locale/ru';
 
 Vue.use(Vuetify);
 
+/**
+ * Настройки vuetify
+ */
 export default new Vuetify({
   theme: {
     dark: false,

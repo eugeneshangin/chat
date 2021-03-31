@@ -44,12 +44,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Ref } from 'vue-property-decorator';
-import { MUTATION_ADD_ROOM } from '@/types/mutations';
 
+/**
+ * Компонент диалога создания комнаты
+ */
 @Component
 export default class ChatCreatorDialog extends Vue {
+  // имя комнаты
   private chatName = '';
 
+  // текст первого сообщения
   private firstMessage = '';
 
   @Ref('form')
@@ -69,30 +73,41 @@ export default class ChatCreatorDialog extends Vue {
     this.limitHandler(this.$store.state.settings.max_room_title_length || 0),
   ];
 
+  // валидаторы для сообщения
   private messageRules = [
     this.requiredFieldValidator,
     this.limitHandler(this.$store.state.settings.max_message_length || 0),
   ];
 
+  /**
+   * Обработчик сохранения сущности новой комнаты
+   * @private
+   */
   private saveChat(): void {
+    // провалидируем форму
     const isValid = this.form.validate();
+    // если все поля заполнены как надо продолжаем сохранения
     if (isValid) {
       const data = {
         room: this.chatName,
         text: this.firstMessage,
       };
       this.$socket.send(JSON.stringify(data));
-      this.$store.commit(MUTATION_ADD_ROOM, {
-        last_message: {
-          text: this.firstMessage,
-        },
-        name: this.chatName,
-        countNewMessage: 0,
-      });
+      // this.$store.commit(MUTATION_ADD_ROOM, {
+      //   last_message: {
+      //     text: this.firstMessage,
+      //   },
+      //   name: this.chatName,
+      //   countNewMessage: 0,
+      // });
       this.closeDialog();
     }
   }
 
+  /**
+   * Обработчик закрытия диалога
+   * @private
+   */
   private closeDialog(): void {
     this.$emit('close');
   }

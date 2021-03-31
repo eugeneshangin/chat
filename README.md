@@ -1,4 +1,4 @@
-# chat
+# Мини чат 
 
 ## Project setup
 ```
