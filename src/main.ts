@@ -11,7 +11,7 @@ const mutations = {
   SOCKET_ONCLOSE,
 };
 
-Vue.use(VueNativeSock, 'wss://nane.tada.team/ws?username=eugene', {
+Vue.use(VueNativeSock, process.env.VUE_APP_WS_DEFAULT, {
   store,
   mutations,
 });

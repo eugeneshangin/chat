@@ -65,7 +65,8 @@ export default class ChatPage extends Vue {
    */
   private sendMessage(event: KeyboardEvent): void {
     // отправляем только если нажали ентер и если соответствует разрешенной длинне
-    if (event.code === 'Enter' && this.message < this.$store.state.settings.max_message_length) {
+    if (event.code === 'Enter'
+      && this.message.length < this.$store.state.settings.max_message_length) {
       // формируем дату для сообщения
       const data = {
         room: this.$store.state.selectedRoom,
