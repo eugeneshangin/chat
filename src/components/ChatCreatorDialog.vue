@@ -44,6 +44,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Ref } from 'vue-property-decorator';
+import { limitHandler } from '@/utils/helpers';
 
 /**
  * Компонент диалога создания комнаты
@@ -63,20 +64,16 @@ export default class ChatCreatorDialog extends Vue {
   private requiredFieldValidator =
     (v: StaticRange | number): boolean | string => !!v || v === 0 || 'Обязательное поле';
 
-  // валидатор на заданный лимит символов
-  private limitHandler = (limit: number): (v: string) => string | boolean => (v: string) => (
-    v.length <= limit || `Превышает лимит в ${limit} символов`)
-
   // валидатор для обязательных полей
   private nameRules = [
     this.requiredFieldValidator,
-    this.limitHandler(this.$store.state.settings.max_room_title_length || 0),
+    limitHandler(this.$store.state.settings.max_room_title_length || 0),
   ];
 
   // валидаторы для сообщения
   private messageRules = [
     this.requiredFieldValidator,
-    this.limitHandler(this.$store.state.settings.max_message_length || 0),
+    limitHandler(this.$store.state.settings.max_message_length || 0),
   ];
 
   /**
@@ -92,14 +89,8 @@ export default class ChatCreatorDialog extends Vue {
         room: this.chatName,
         text: this.firstMessage,
       };
+      // отправляем сообщение чтобы комната создалась
       this.$socket.send(JSON.stringify(data));
-      // this.$store.commit(MUTATION_ADD_ROOM, {
-      //   last_message: {
-      //     text: this.firstMessage,
-      //   },
-      //   name: this.chatName,
-      //   countNewMessage: 0,
-      // });
       this.closeDialog();
     }
   }

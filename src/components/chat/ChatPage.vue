@@ -14,9 +14,10 @@
       <v-text-field
         v-model="message"
         outlined
+        hide-details
+        :rules="rules"
         placeholder="Сообщение..."
         dense
-        hide-details
         @keydown="sendMessage"
       />
     </div>
@@ -32,6 +33,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { ACTION_SET_SETTINGS } from '@/types/actions';
+import { limitHandler } from '@/utils/helpers';
 import List from './List.vue';
 
 /**
@@ -46,6 +48,11 @@ export default class ChatPage extends Vue {
   // текущее сообщение
   private message = '';
 
+  // валидатор для отправки сообщения
+  private rules = [
+    limitHandler(this.$store.state.settings.max_message_length || 2000),
+  ];
+
   mounted(): void {
     // получаем список настроек и сохраняем в store
     this.$store.dispatch(ACTION_SET_SETTINGS);
@@ -57,8 +64,8 @@ export default class ChatPage extends Vue {
    * @private
    */
   private sendMessage(event: KeyboardEvent): void {
-    // отправляем только если нажали ентер
-    if (event.code === 'Enter') {
+    // отправляем только если нажали ентер и если соответствует разрешенной длинне
+    if (event.code === 'Enter' && this.message < this.$store.state.settings.max_message_length) {
       // формируем дату для сообщения
       const data = {
         room: this.$store.state.selectedRoom,

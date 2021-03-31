@@ -6,7 +6,10 @@ function getFormattedDate(date: Date): string {
   return date ? `${hoursText}:${minutesText}` : '';
 }
 
+const limitHandler = (limit: number): (v: string) => string | boolean => (v: string) => (
+  v.length <= limit || `Превышает лимит в ${limit} символов`);
+
 export {
-  // eslint-disable-next-line import/prefer-default-export
   getFormattedDate,
+  limitHandler,
 };
